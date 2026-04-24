@@ -393,11 +393,11 @@ If this project helped you and you’d like to support it, buy me a coffee.
 </tr>
 <tr>
 <td align="center" width="50%">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=bitcoin%3Abc1q2hmxr026ahlvreftxqrjdwkq8u7ys2g0d0xf40" alt="BTC on-chain QR" width="220" height="220" /><br/>
+<img src="assets/qr_code_onchain.png" alt="BTC on-chain QR" width="220" height="220" /><br/>
 <sub><code>bc1q2hmxr026ahlvreftxqrjdwkq8u7ys2g0d0xf40</code></sub>
 </td>
 <td align="center" width="50%">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=btcnow%40walletofsatoshi.com" alt="Lightning QR" width="220" height="220" /><br/>
+<img src="assets/qr_code_lightning.png" alt="Lightning QR" width="220" height="220" /><br/>
 <sub><code>btcnow@walletofsatoshi.com</code></sub>
 </td>
 </tr>

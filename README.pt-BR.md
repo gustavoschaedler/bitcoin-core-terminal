@@ -400,11 +400,11 @@ Se esse projeto te ajudou e você quiser apoiar, me pague um café.
 </tr>
 <tr>
 <td align="center" width="50%">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=bitcoin%3Abc1q2hmxr026ahlvreftxqrjdwkq8u7ys2g0d0xf40" alt="QR BTC on-chain" width="220" height="220" /><br/>
+<img src="assets/qr_code_onchain.png" alt="QR BTC on-chain" width="220" height="220" /><br/>
 <sub><code>bc1q2hmxr026ahlvreftxqrjdwkq8u7ys2g0d0xf40</code></sub>
 </td>
 <td align="center" width="50%">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=btcnow%40walletofsatoshi.com" alt="QR Lightning" width="220" height="220" /><br/>
+<img src="assets/qr_code_lightning.png" alt="QR Lightning" width="220" height="220" /><br/>
 <sub><code>btcnow@walletofsatoshi.com</code></sub>
 </td>
 </tr>
