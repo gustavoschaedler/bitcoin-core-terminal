@@ -1,16 +1,72 @@
+<div align="center">
+
 # ⛏️ Bitcoin Core Terminal
 
-Local **Bitcoin Core regtest** environment using Docker Compose, including:
+### Local Bitcoin Core regtest lab with a browser-based terminal
 
-- `bitcoind` (regtest) with data persisted in a named volume, plus a
-  container-side healthcheck so dependent services only start once the node is
-  actually responsive.
-- Web terminal (FastAPI + HTML/CSS/JS) with snippets, draggable splits,
+[![Bitcoin Core](https://img.shields.io/badge/Bitcoin%20Core-30.0-F7931A?logo=bitcoin&logoColor=white)](https://bitcoincore.org/)
+[![Docker](https://img.shields.io/badge/Docker%20Compose-ready-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.136-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![nginx](https://img.shields.io/badge/nginx-1.30--alpine-009639?logo=nginx&logoColor=white)](https://nginx.org/)
+
+**🇬🇧 English** · [🇧🇷 Português](README.pt-BR.md)
+
+</div>
+
+---
+
+## ⚡ TL;DR — Quick start
+
+```bash
+git clone https://github.com/gustavoschaedler/bitcoin-core-terminal.git
+cd bitcoin-core-terminal
+cp .env_template .env
+docker compose up -d --build
+open http://localhost:8080
+```
+
+That's it. You now have a fresh `bitcoin-core` regtest node and a browser terminal with snippets. See [Smoke test](#-smoke-test) to confirm it works.
+
+---
+
+## 📖 Table of contents
+
+- [⛏️ Bitcoin Core Terminal](#️-bitcoin-core-terminal)
+    - [Local Bitcoin Core regtest lab with a browser-based terminal](#local-bitcoin-core-regtest-lab-with-a-browser-based-terminal)
+  - [⚡ TL;DR — Quick start](#-tldr--quick-start)
+  - [📖 Table of contents](#-table-of-contents)
+  - [📦 What's in the box](#-whats-in-the-box)
+  - [✅ Prerequisites](#-prerequisites)
+  - [⚙️ Configuration (.env)](#️-configuration-env)
+  - [🚀 Start the stack](#-start-the-stack)
+  - [🧪 Smoke test](#-smoke-test)
+  - [🛠️ Using bitcoin-cli](#️-using-bitcoin-cli)
+  - [💻 Web Terminal](#-web-terminal)
+  - [🌐 HTTP API](#-http-api)
+  - [🗂️ Project structure](#️-project-structure)
+  - [🛡️ Network architecture](#️-network-architecture)
+  - [🔌 Ports and credentials](#-ports-and-credentials)
+  - [💾 Persistence and reset](#-persistence-and-reset)
+  - [🔧 Troubleshooting](#-troubleshooting)
+  - [📚 References](#-references)
+  - [⚡ Donations](#-donations)
+
+---
+
+## 📦 What's in the box
+
+- **`bitcoind`** (regtest) with data persisted in a named volume, plus a
+  container-side healthcheck so dependent services only start once the node
+  is actually responsive.
+- **Web terminal** (FastAPI + HTML/CSS/JS) with snippets, draggable splits,
   language switcher (English / Portuguese) and terminal-like UX.
-- Proxy (nginx) exposing only the UI on the host, with security headers and
-  cache-busting for dev.
+- **Proxy** (nginx) exposing only the UI on the host, with security headers
+  and cache-busting for dev.
 
-## Prerequisites
+---
+
+## ✅ Prerequisites
 
 - Docker Engine + Docker Compose (plugin `docker compose`)
 
@@ -21,7 +77,9 @@ docker --version
 docker compose version
 ```
 
-## Configuration (.env)
+---
+
+## ⚙️ Configuration (.env)
 
 Copy the template before the first run (the `.env` file is gitignored on
 purpose — it holds credentials):
@@ -30,16 +88,15 @@ purpose — it holds credentials):
 cp .env_template .env
 ```
 
-Configuration keys:
-
-- `HOST_PORT` (host port published by the nginx proxy)
-- `BITCOIN_REPO` and `BITCOIN_VERSION` (Bitcoin Core image — also used as a
-  build stage to copy `bitcoin-cli` into the WebUI image)
-- `PYTHON_IMAGE` (Python base image for the WebUI container)
-- `NGINX_IMAGE` (nginx image used by the reverse proxy)
-- `VERSION` (software version shown at the top of the WebUI)
-- `BITCOIND_HOST`, `BITCOIND_PORT`, `BITCOIND_USER`, `BITCOIND_PASS`
-  (RPC endpoint and credentials used by the WebUI)
+| Key                                | Purpose                                                                                    |
+| ---------------------------------- | ------------------------------------------------------------------------------------------ |
+| `HOST_PORT`                        | Host port published by the nginx proxy                                                     |
+| `BITCOIN_REPO` · `BITCOIN_VERSION` | Bitcoin Core image (also used as a build stage to copy `bitcoin-cli` into the WebUI image) |
+| `PYTHON_IMAGE`                     | Python base image for the WebUI container                                                  |
+| `NGINX_IMAGE`                      | nginx image used by the reverse proxy                                                      |
+| `VERSION`                          | Version label shown in the WebUI top bar                                                   |
+| `BITCOIND_HOST` · `BITCOIND_PORT`  | RPC endpoint used by the WebUI                                                             |
+| `BITCOIND_USER` · `BITCOIND_PASS`  | RPC credentials used by the WebUI                                                          |
 
 Example:
 
@@ -62,14 +119,16 @@ To upgrade Bitcoin Core later (e.g. 31.0), change only:
 BITCOIN_VERSION=31.0
 ```
 
+> [!IMPORTANT]
 > If you change `BITCOIND_USER` / `BITCOIND_PASS` in `.env`, also update
 > `rpcuser` / `rpcpassword` in [`bitcoind/bitcoin.conf`](bitcoind/bitcoin.conf)
-> to match. The WebUI container regenerates its own
-> `~/.bitcoin/bitcoin.conf` on start from the same `.env`, via
-> [`infra/entrypoint.sh`](infra/entrypoint.sh), so that side stays in sync
-> automatically.
+> to match. The WebUI container regenerates its own `~/.bitcoin/bitcoin.conf`
+> on start from the same `.env`, via [`infra/entrypoint.sh`](infra/entrypoint.sh),
+> so that side stays in sync automatically.
 
-## Start the stack
+---
+
+## 🚀 Start the stack
 
 From the project root:
 
@@ -88,7 +147,9 @@ before it starts, and nginx waits for the WebUI. If you see `502 Bad Gateway`
 right after startup, it just means the proxy came up a moment before the
 backend — give it a couple of seconds and reload.
 
-## Smoke test
+---
+
+## 🧪 Smoke test
 
 Using `bitcoin-cli` from the `bitcoind` container:
 
@@ -115,7 +176,9 @@ Versions (software/Python/Bitcoin):
 curl http://localhost:8080/api/meta
 ```
 
-## Using bitcoin-cli
+---
+
+## 🛠️ Using bitcoin-cli
 
 `bitcoin-cli` is already installed inside both the `bitcoind` and `webui`
 containers (no need to install it on the host). From the `bitcoind` container:
@@ -130,14 +193,16 @@ Optional: alias (run from the project directory):
 alias bitcoin-cli='docker compose exec -T --user bitcoin bitcoind bitcoin-cli'
 ```
 
-## Web Terminal
+---
+
+## 💻 Web Terminal
 
 The browser terminal accepts `bitcoin-cli`-style commands (with automatic type
 parsing) and a small subset of shell for ergonomics (pipes to `jq`, `grep`,
 `less`, etc.). It includes:
 
 - Splits and draggable dividers (multiple panes, created/closed at will).
-- Per-pane history (`↑`/`↓`), clear with `Ctrl+L`, and the `clear` command.
+- Per-pane history (`↑` / `↓`), clear with `Ctrl+L`, and the `clear` command.
 - Snippets by section, with search (and highlighted matches), collapse/expand,
   and a resizable sidebar.
 - Snippet-based autocomplete (`Tab` and `→` complete).
@@ -148,69 +213,87 @@ parsing) and a small subset of shell for ergonomics (pipes to `jq`, `grep`,
   - `-rpcwallet=NAME` (wallet per call)
   - `-generate N` (shortcut to mine on regtest)
 
-## HTTP API
+---
 
-- `GET  /api/health` — round-trips `getblockchaininfo` through bitcoind.
-- `GET  /api/meta` — WebUI / Python / Bitcoin Core versions.
-- `GET  /api/wallets` — loaded wallets (shortcut for `listwallets`).
-- `POST /api/rpc` — JSON-RPC proxy. Body: `{method, params, wallet?}`.
-- `POST /api/exec` — runs a shell command inside the WebUI sandbox. Body:
-  `{command, cwd?, timeout?}`. Output capped at ~1 MiB, default timeout 30 s
-  (max 120 s). The process runs in its own process group and the whole tree
-  is killed on timeout.
-- OpenAPI docs are served at `/api` (Swagger UI).
+## 🌐 HTTP API
 
+| Method | Path           | Description                                                                       |
+| ------ | -------------- | --------------------------------------------------------------------------------- |
+| `GET`  | `/api/health`  | Round-trips `getblockchaininfo` through bitcoind                                  |
+| `GET`  | `/api/meta`    | WebUI / Python / Bitcoin Core versions                                            |
+| `GET`  | `/api/wallets` | Loaded wallets (shortcut for `listwallets`)                                       |
+| `POST` | `/api/rpc`     | JSON-RPC proxy — body: `{method, params, wallet?}`                                |
+| `POST` | `/api/exec`    | Runs a shell command inside the WebUI sandbox — body: `{command, cwd?, timeout?}` |
+| `GET`  | `/api`         | OpenAPI docs (Swagger UI)                                                         |
+
+`/api/exec` caps output at ~1 MiB, default timeout 30 s (max 120 s). The
+process runs in its own process group and the whole tree is killed on timeout.
 Inputs are size-limited at the Pydantic layer to stop accidental abuse.
 
-## Project structure
+---
 
-- [backend/](backend/) (FastAPI)
-  - [backend/app.py](backend/app.py) — RPC proxy, sandbox exec, lifespan-managed httpx client
-  - [backend/requirements.txt](backend/requirements.txt)
-- [webui/static/](webui/static/) (frontend)
-  - [webui/static/index.html](webui/static/index.html)
-  - [webui/static/app.css](webui/static/app.css)
-  - [webui/static/app.js](webui/static/app.js)
-  - [webui/static/snippets.html](webui/static/snippets.html)
-  - [webui/static/i18n/en-GB.json](webui/static/i18n/en-GB.json)
-  - [webui/static/i18n/pt-BR.json](webui/static/i18n/pt-BR.json)
-- [infra/](infra/) (container build + proxy config)
-  - [infra/webui.Dockerfile](infra/webui.Dockerfile) — two-stage build, copies `bitcoin-cli` from the Bitcoin Core image
-  - [infra/entrypoint.sh](infra/entrypoint.sh) — renders `~/.bitcoin/bitcoin.conf` from `.env`, then execs uvicorn
-  - [infra/nginx.conf](infra/nginx.conf)
-- [bitcoind/bitcoin.conf](bitcoind/bitcoin.conf) — config mounted into the `bitcoind` container
-- [docker-compose.yml](docker-compose.yml)
-- [.env_template](.env_template) — copy to `.env` on first run
-- [.dockerignore](.dockerignore) / [.gitignore](.gitignore)
+## 🗂️ Project structure
 
-## Network architecture
+```text
+bitcoin-coders-bootcamp/
+├── backend/                FastAPI app
+│   ├── app.py              RPC proxy + sandbox exec + lifespan httpx client
+│   └── requirements.txt
+├── bitcoind/
+│   └── bitcoin.conf        mounted into the bitcoind container
+├── infra/                  container build + proxy config
+│   ├── webui.Dockerfile    two-stage build, copies bitcoin-cli from Bitcoin Core image
+│   ├── entrypoint.sh       renders ~/.bitcoin/bitcoin.conf from .env, execs uvicorn
+│   └── nginx.conf
+├── webui/static/           frontend
+│   ├── index.html
+│   ├── app.css
+│   ├── app.js
+│   ├── snippets.html
+│   └── i18n/
+│       ├── en-GB.json
+│       └── pt-BR.json
+├── docker-compose.yml
+├── .env_template           copy to .env on first run
+├── .dockerignore
+└── .gitignore
+```
+
+---
+
+## 🛡️ Network architecture
 
 ```text
 Browser
-  │  HTTP :8080
+  │  HTTP :8080 (127.0.0.1 only)
   ▼
-proxy (nginx)  ──► webui (FastAPI) ──► bitcoind (JSON-RPC)
+proxy (nginx)  ──►  webui (FastAPI)  ──►  bitcoind (JSON-RPC)
 ```
 
 Only port `8080` is published, and only on `127.0.0.1` (loopback). Compose
 networks `app` and `rpc` are declared `internal: true`, so `bitcoind` is
 unreachable from the host and the WebUI is only reachable via the proxy. The
 `webui` container runs as non-root (`sandbox`, uid 1000), read-only with
-tmpfs mounts for `/tmp` and `~/.bitcoin`, all Linux capabilities dropped, and
-`no-new-privileges` set. The proxy container is hardened likewise and keeps
-only the minimal capability set nginx needs to start.
+tmpfs mounts for `/tmp` and `~/.bitcoin`, all Linux capabilities dropped,
+and `no-new-privileges` set. The proxy container is hardened likewise and
+keeps only the minimal capability set nginx needs to start.
 
-If you need to expose the WebUI on a LAN, edit the `ports:` mapping in
-[docker-compose.yml](docker-compose.yml) *and* add authentication in front of
-it (nginx `basic_auth`, a tunnel, a reverse proxy with auth, etc.) — the
-`/api/exec` endpoint runs shell commands inside the container and must not be
-reachable without auth.
+> [!WARNING]
+> If you need to expose the WebUI on a LAN, edit the `ports:` mapping in
+> [docker-compose.yml](docker-compose.yml) **and** add authentication in
+> front of it (nginx `basic_auth`, a tunnel, a reverse proxy with auth, etc.)
+> — the `/api/exec` endpoint runs shell commands inside the container and
+> must not be reachable without auth.
 
-## Ports and credentials
+---
 
-- Host: `8080` → proxy → webui (bound to `127.0.0.1` only)
-- RPC (internal): `bitcoind:18443`
-- P2P regtest (internal): `18444`
+## 🔌 Ports and credentials
+
+| Scope                  | Address                          |
+| ---------------------- | -------------------------------- |
+| Host                   | `127.0.0.1:8080` → proxy → webui |
+| RPC (internal)         | `bitcoind:18443`                 |
+| P2P regtest (internal) | `18444`                          |
 
 RPC credentials live in [bitcoind/bitcoin.conf](bitcoind/bitcoin.conf) and are
 also passed to the WebUI via `.env`:
@@ -220,9 +303,11 @@ rpcuser=bitcoin
 rpcpassword=bitcoin
 ```
 
-Do not expose this environment to the internet.
+> [!CAUTION]
+> Do not expose this environment to the internet.
 
-Example RPC call from inside the environment:
+<details>
+<summary>Example raw JSON-RPC call from inside the environment</summary>
 
 ```bash
 docker compose exec -T webui curl --user bitcoin:bitcoin \
@@ -231,7 +316,11 @@ docker compose exec -T webui curl --user bitcoin:bitcoin \
   http://bitcoind:18443/
 ```
 
-## Persistence and reset
+</details>
+
+---
+
+## 💾 Persistence and reset
 
 Data is stored in the `bitcoind-data` named volume.
 
@@ -247,24 +336,79 @@ docker compose down
 docker compose down -v
 ```
 
-## Troubleshooting
+---
 
-- `Could not locate RPC credentials ... /root/.bitcoin/bitcoin.conf`: run
-  `bitcoin-cli` as the `bitcoin` user so it reads the right config:
+## 🔧 Troubleshooting
+
+<details>
+<summary><code>Could not locate RPC credentials ... /root/.bitcoin/bitcoin.conf</code></summary>
+
+Run `bitcoin-cli` as the `bitcoin` user so it reads the right config:
 
 ```bash
 docker compose exec --user bitcoin bitcoind bitcoin-cli -regtest getblockchaininfo
 ```
 
-- `502 Bad Gateway` right after startup: wait a few seconds and reload — the
-  WebUI is still coming up behind the proxy.
-- Port 8080 already in use: change `HOST_PORT` in `.env` (e.g.
-  `HOST_PORT=18080`).
-- Credentials changed in `.env` but RPC still fails: make sure
-  `bitcoind/bitcoin.conf` was updated to match and recreate the stack with
-  `docker compose up -d --build`.
+</details>
 
-## References
+<details>
+<summary><code>502 Bad Gateway</code> right after startup</summary>
+
+Wait a few seconds and reload — the WebUI is still coming up behind the proxy.
+
+</details>
+
+<details>
+<summary>Port 8080 already in use</summary>
+
+Change `HOST_PORT` in `.env` (e.g. `HOST_PORT=18080`) and recreate the stack.
+
+</details>
+
+<details>
+<summary>Credentials changed in <code>.env</code> but RPC still fails</summary>
+
+Make sure `bitcoind/bitcoin.conf` was updated to match and recreate the stack
+with `docker compose up -d --build`.
+
+</details>
+
+---
+
+## 📚 References
 
 - [Bitcoin Core — docs](https://bitcoincore.org/en/doc/)
 - [Bitcoin RPC reference](https://developer.bitcoin.org/reference/rpc/)
+
+---
+
+## ⚡ Donations
+
+If this project helped you, a tip is very welcome — it keeps the lights on.
+
+> [!NOTE]
+> The addresses below are **placeholders**. Replace them with your own, and
+> the QR codes will update automatically (they are generated from the URL).
+
+<table>
+<tr>
+<th align="center">⛓️ Bitcoin (on-chain)</th>
+<th align="center">⚡ Lightning Network</th>
+</tr>
+<tr>
+<td align="center" width="50%">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=bitcoin%3Abc1qSUBSTITUAPELOSEUENDERECOBTCMAINNETXXXXXXXX" alt="BTC on-chain QR" width="220" height="220" /><br/>
+<sub><code>bc1qSUBSTITUAPELOSEUENDERECOBTCMAINNETXXXXXXXX</code></sub>
+</td>
+<td align="center" width="50%">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=your-lightning-address%40your-provider.com" alt="Lightning QR" width="220" height="220" /><br/>
+<sub><code>your-lightning-address@your-provider.com</code></sub>
+</td>
+</tr>
+</table>
+
+---
+
+<div align="center">
+<sub>Built with ⛏️ for Bitcoin learners · <a href="README.pt-BR.md">🇧🇷 Versão em Português</a></sub>
+</div>
