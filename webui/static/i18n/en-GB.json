@@ -1,0 +1,150 @@
+{
+  "page": {
+    "title": "Bitcoin Core — Web Terminal"
+  },
+  "topbar": {
+    "logo": "⛏️ Bitcoin Core Terminal",
+    "languageTitle": "Language",
+    "langEnTitle": "English (UK)",
+    "langEnAria": "Switch language to English (UK)",
+    "langPtTitle": "Português (Brasil)",
+    "langPtAria": "Switch language to Portuguese (Brazil)",
+    "githubTitle": "Open repository on GitHub",
+    "githubAria": "Open repository on GitHub",
+    "connecting": "connecting...",
+    "offline": "node offline",
+    "online": "{chain} · blocks {blocks}"
+  },
+  "sidebar": {
+    "snippetsTitle": "Snippets",
+    "snippetsSearchPlaceholder": "Search snippets...",
+    "resizeTitle": "Drag to resize",
+    "snippetsToggleTitle": "Collapse/expand"
+  },
+  "help": {
+    "title": "Tips",
+    "cards": [
+      {
+        "title": "How to use",
+        "lines": [
+          "Type an RPC command (e.g. <code>getblockchaininfo</code>) and press <kbd>Enter</kbd>",
+          "Use <code>-rpcwallet=NAME</code> to target a wallet",
+          "Use <code>-generate</code> to mine on regtest (requires a wallet)"
+        ]
+      },
+      {
+        "title": "Terminal",
+        "lines": [
+          "Start with <code>!</code> to run shell commands inside the container",
+          "<kbd>↑</kbd>/<kbd>↓</kbd> history, <kbd>Tab</kbd> autocomplete, <kbd>Ctrl</kbd>+<kbd>L</kbd> clears"
+        ]
+      },
+      {
+        "title": "RPC",
+        "lines": [
+          "Parameters: <code>getblock \"HASH\" 2</code> or <code>sendtoaddress \"addr\" 1.0</code>",
+          "Wallet: <code>-rpcwallet=NAME</code> (e.g. <code>getbalance -rpcwallet=my_wallet</code>)",
+          "Regtest: <code>-generate</code> mines blocks (uses <code>generatetoaddress</code>)"
+        ]
+      },
+      {
+        "title": "Keys",
+        "lines": [
+          "<kbd>Enter</kbd> runs, <kbd>Shift</kbd>+<kbd>Enter</kbd> inserts a newline",
+          "<kbd>Ctrl</kbd>+<kbd>L</kbd> clears the terminal",
+          "<kbd>Tab</kbd> completes commands (based on snippets)"
+        ]
+      },
+      {
+        "title": "Wallets",
+        "lines": [
+          "<code>createwallet \"my_wallet\"</code> creates",
+          "<code>loadwallet \"my_wallet\"</code> loads",
+          "<code>listwallets</code> lists"
+        ]
+      },
+      {
+        "title": "Snippets",
+        "lines": [
+          "Click a snippet to insert it into the active terminal",
+          "Use search to filter; matches are highlighted",
+          "Groups can be collapsed/expanded"
+        ]
+      }
+    ]
+  },
+  "terminal": {
+    "title": "Terminal {num}",
+    "ready": "# Terminal {num} — ready."
+  },
+  "split": {
+    "newTerminalTitle": "New Terminal",
+    "newTerminalTooltip": "New terminal (split)",
+    "splitLeftTitle": "Split left",
+    "splitRightTitle": "Split right",
+    "splitUpTitle": "Split up",
+    "splitDownTitle": "Split down",
+    "splitLeftLabel": "Left",
+    "splitRightLabel": "Right",
+    "splitUpLabel": "Up",
+    "splitDownLabel": "Down",
+    "closePaneTitle": "Close pane"
+  },
+  "exec": {
+    "truncated": "⚠ output truncated at 1 MiB",
+    "exit": "exit {code}"
+  },
+  "errors": {
+    "subshellUnclosed": "Malformed $(...): missing closing )",
+    "generateNeedsWallet": "-generate requires a wallet: use -rpcwallet=NAME",
+    "emptyCommand": "empty command",
+    "noMethod": "no method specified",
+    "snippetsLoadFailed": "failed to load snippets",
+    "backend": {
+      "bitcoind_connect_failed": "Failed to connect to bitcoind ({rpc_base}): {error}",
+      "bitcoind_non_json": "Node returned a non-JSON response (HTTP {status}): {body}",
+      "exec_empty_command": "empty command",
+      "exec_start_failed": "failed to start process: {error}",
+      "exec_timeout": "command exceeded timeout of {timeout}s"
+    }
+  },
+  "result": {
+    "noReturn": "(no return)",
+    "noErrorDetail": "(error without details)"
+  },
+  "badges": {
+    "version": "webui:{version}"
+  },
+  "snippets": {
+    "known": {
+      "getblockchaininfo": "Shows general blockchain information (chain, blocks, etc.)",
+      "getblockcount": "Returns the current blockchain height (block count)",
+      "getbestblockhash": "Returns the best block hash (current tip)",
+      "getrawmempool": "Lists transactions in the mempool",
+      "getmempoolinfo": "Shows mempool statistics",
+      "getpeerinfo": "Lists connected peers",
+      "getnetworkinfo": "Shows network information (connections, services, etc.)",
+      "getnewaddress": "Generates a new address in the wallet",
+      "getbalance": "Shows the wallet balance",
+      "listunspent": "Lists available UTXOs in the wallet",
+      "listwallets": "Lists loaded wallets",
+      "createwallet": "Creates a new wallet",
+      "loadwallet": "Loads an existing wallet",
+      "generatetoaddress": "Mines blocks (regtest) to an address",
+      "help": "RPC help (can receive a command name)"
+    },
+    "generic": {
+      "get": "Fetches data via RPC {method}",
+      "list": "Lists data via RPC {method}",
+      "create": "Creates a resource via RPC {method}",
+      "decode": "Decodes data via RPC {method}",
+      "send": "Sends an operation via RPC {method}",
+      "sign": "Signs data via RPC {method}",
+      "verify": "Verifies data via RPC {method}",
+      "load": "Loads data via RPC {method}",
+      "import": "Imports data via RPC {method}",
+      "scan": "Scans data via RPC {method}",
+      "exec": "Runs RPC {method}"
+    }
+  }
+}

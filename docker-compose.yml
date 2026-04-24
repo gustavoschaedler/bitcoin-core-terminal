@@ -1,0 +1,93 @@
+services:
+  bitcoind:
+    image: ${BITCOIN_REPO}:${BITCOIN_VERSION}
+    restart: unless-stopped
+    networks:
+      - rpc
+    volumes:
+      - ./bitcoind/bitcoin.conf:/home/bitcoin/.bitcoin/bitcoin.conf
+      - bitcoind-data:/home/bitcoin/.bitcoin
+    command:
+      - -printtoconsole
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          bitcoin-cli -regtest
+          -rpcuser=${BITCOIND_USER}
+          -rpcpassword=${BITCOIND_PASS}
+          getblockchaininfo > /dev/null 2>&1
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+  webui:
+    build:
+      context: .
+      dockerfile: infra/webui.Dockerfile
+      args:
+        BITCOIN_REPO: ${BITCOIN_REPO}
+        BITCOIN_VERSION: ${BITCOIN_VERSION}
+        PYTHON_IMAGE: ${PYTHON_IMAGE}
+    restart: unless-stopped
+    networks:
+      - rpc
+      - app
+    depends_on:
+      bitcoind:
+        condition: service_healthy
+    env_file:
+      - .env
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+      - /home/sandbox/.bitcoin:uid=1000,gid=1000,mode=0700,size=1m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python3 -c "import urllib.request,sys;
+          sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/api/health',timeout=3).status==200 else 1)"
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+  proxy:
+    image: ${NGINX_IMAGE}
+    restart: unless-stopped
+    depends_on:
+      - webui
+    networks:
+      - app
+      - edge
+    ports:
+      # Bind only to localhost by default. If you must expose the WebUI on a
+      # LAN or the public internet, switch to "${HOST_PORT}:8080" AND add
+      # authentication (nginx basic_auth, a reverse proxy with auth, etc).
+      - "127.0.0.1:${HOST_PORT}:8080"
+    volumes:
+      - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+      - DAC_OVERRIDE
+      - NET_BIND_SERVICE
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  rpc:
+    internal: true
+  app:
+    internal: true
+  edge: {}
+
+volumes:
+  bitcoind-data:

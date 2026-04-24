@@ -1,0 +1,150 @@
+{
+  "page": {
+    "title": "Bitcoin Core — Terminal Web"
+  },
+  "topbar": {
+    "logo": "⛏️ Bitcoin Core Terminal",
+    "languageTitle": "Idioma",
+    "langEnTitle": "English (UK)",
+    "langEnAria": "Mudar idioma para English (UK)",
+    "langPtTitle": "Português (Brasil)",
+    "langPtAria": "Mudar idioma para Português (Brasil)",
+    "githubTitle": "Abrir repositório no GitHub",
+    "githubAria": "Abrir repositório no GitHub",
+    "connecting": "conectando...",
+    "offline": "nó offline",
+    "online": "{chain} · blocos {blocks}"
+  },
+  "sidebar": {
+    "snippetsTitle": "Snippets",
+    "snippetsSearchPlaceholder": "Pesquisar snippets...",
+    "resizeTitle": "Arraste para redimensionar",
+    "snippetsToggleTitle": "Recolher/expandir"
+  },
+  "help": {
+    "title": "Dicas",
+    "cards": [
+      {
+        "title": "Como usar",
+        "lines": [
+          "Digite um comando RPC (ex.: <code>getblockchaininfo</code>) e aperte <kbd>Enter</kbd>",
+          "Use <code>-rpcwallet=NOME</code> para escolher a wallet",
+          "Use <code>-generate</code> para minerar em regtest (precisa de wallet)"
+        ]
+      },
+      {
+        "title": "Terminal",
+        "lines": [
+          "Comece com <code>!</code> para executar comandos de shell dentro do container",
+          "<kbd>↑</kbd>/<kbd>↓</kbd> histórico, <kbd>Tab</kbd> autocomplete, <kbd>Ctrl</kbd>+<kbd>L</kbd> limpa"
+        ]
+      },
+      {
+        "title": "RPC",
+        "lines": [
+          "Parâmetros: <code>getblock \"HASH\" 2</code> ou <code>sendtoaddress \"addr\" 1.0</code>",
+          "Wallet: <code>-rpcwallet=NOME</code> (ex.: <code>getbalance -rpcwallet=minha_wallet</code>)",
+          "Regtest: <code>-generate</code> minera blocos (usa <code>generatetoaddress</code>)"
+        ]
+      },
+      {
+        "title": "Teclas",
+        "lines": [
+          "<kbd>Enter</kbd> executa, <kbd>Shift</kbd>+<kbd>Enter</kbd> quebra linha",
+          "<kbd>Ctrl</kbd>+<kbd>L</kbd> limpa o terminal",
+          "<kbd>Tab</kbd> completa comandos (baseado nos snippets)"
+        ]
+      },
+      {
+        "title": "Wallets",
+        "lines": [
+          "<code>createwallet \"minha_wallet\"</code> cria",
+          "<code>loadwallet \"minha_wallet\"</code> carrega",
+          "<code>listwallets</code> lista"
+        ]
+      },
+      {
+        "title": "Snippets",
+        "lines": [
+          "Clique em um snippet para inserir no terminal ativo",
+          "Use a busca para filtrar; o texto do comando é destacado",
+          "Os grupos podem ser recolhidos/expandidos"
+        ]
+      }
+    ]
+  },
+  "terminal": {
+    "title": "Terminal {num}",
+    "ready": "# Terminal {num} — pronto."
+  },
+  "split": {
+    "newTerminalTitle": "Novo Terminal",
+    "newTerminalTooltip": "Novo terminal (split)",
+    "splitLeftTitle": "Dividir à esquerda",
+    "splitRightTitle": "Dividir à direita",
+    "splitUpTitle": "Dividir acima",
+    "splitDownTitle": "Dividir abaixo",
+    "splitLeftLabel": "Esquerda",
+    "splitRightLabel": "Direita",
+    "splitUpLabel": "Acima",
+    "splitDownLabel": "Abaixo",
+    "closePaneTitle": "Fechar pane"
+  },
+  "exec": {
+    "truncated": "⚠ output truncado em 1 MiB",
+    "exit": "exit {code}"
+  },
+  "errors": {
+    "subshellUnclosed": "$(...) mal formado: parêntese não fechado",
+    "generateNeedsWallet": "-generate precisa de uma wallet: use -rpcwallet=NOME",
+    "emptyCommand": "comando vazio",
+    "noMethod": "nenhum método especificado",
+    "snippetsLoadFailed": "falha ao carregar snippets",
+    "backend": {
+      "bitcoind_connect_failed": "Falha ao conectar no bitcoind ({rpc_base}): {error}",
+      "bitcoind_non_json": "Resposta não-JSON do node (HTTP {status}): {body}",
+      "exec_empty_command": "comando vazio",
+      "exec_start_failed": "falha ao iniciar processo: {error}",
+      "exec_timeout": "comando excedeu timeout de {timeout}s"
+    }
+  },
+  "result": {
+    "noReturn": "(sem retorno)",
+    "noErrorDetail": "(erro sem detalhe)"
+  },
+  "badges": {
+    "version": "webui:{version}"
+  },
+  "snippets": {
+    "known": {
+      "getblockchaininfo": "Mostra informações gerais da blockchain (chain, blocos, etc.)",
+      "getblockcount": "Retorna a altura atual da blockchain (número de blocos)",
+      "getbestblockhash": "Retorna o hash do melhor bloco (tip atual)",
+      "getrawmempool": "Lista transações no mempool",
+      "getmempoolinfo": "Mostra estatísticas do mempool",
+      "getpeerinfo": "Lista peers conectados",
+      "getnetworkinfo": "Mostra informações de rede (conexões, serviços, etc.)",
+      "getnewaddress": "Gera um novo endereço na wallet",
+      "getbalance": "Mostra saldo da wallet",
+      "listunspent": "Lista UTXOs disponíveis na wallet",
+      "listwallets": "Lista wallets carregadas",
+      "createwallet": "Cria uma nova wallet",
+      "loadwallet": "Carrega uma wallet existente",
+      "generatetoaddress": "Minerar blocos (regtest) para um endereço",
+      "help": "Ajuda do RPC (pode receber o nome de um comando)"
+    },
+    "generic": {
+      "get": "Obtém dados via RPC {method}",
+      "list": "Lista dados via RPC {method}",
+      "create": "Cria recurso via RPC {method}",
+      "decode": "Decodifica dados via RPC {method}",
+      "send": "Envia operação via RPC {method}",
+      "sign": "Assina dados via RPC {method}",
+      "verify": "Verifica dados via RPC {method}",
+      "load": "Carrega dados via RPC {method}",
+      "import": "Importa dados via RPC {method}",
+      "scan": "Varre dados via RPC {method}",
+      "exec": "Executa RPC {method}"
+    }
+  }
+}

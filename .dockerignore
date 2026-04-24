@@ -1,0 +1,40 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Environment / secrets (never send to build context)
+.env
+.env.*
+!.env_template
+
+# Python caches
+__pycache__
+*.py[cod]
+*.so
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.venv
+venv
+ENV
+env
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors / IDEs
+.vscode
+.idea
+*.swp
+*.swo
+
+# Project docs not needed inside the image
+README.md
+README.pt-BR.md
+LICENSE
+
+# Compose state
+docker-compose.override.yml
