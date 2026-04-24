@@ -25,6 +25,7 @@ import platform
 import signal
 import uuid
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Annotated, Any
 
 import httpx
@@ -34,6 +35,19 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 log = logging.getLogger("webui")
+
+VERSION_FILE = Path("/app/version.txt")
+
+
+def read_app_version() -> str:
+    try:
+        return VERSION_FILE.read_text(encoding="utf-8").strip()
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=500,
+            detail="version.txt not found. Create it at the project root.",
+        ) from exc
+
 
 # --------------------------------------------------------------------------- #
 # Config (read from env, with docker-compose defaults)
@@ -197,7 +211,7 @@ async def call_rpc(
 
 
 async def _kill_process_tree(proc: asyncio.subprocess.Process) -> None:
-    """Kills the whole process group, so background children of the shell die too."""
+    """Kills the whole process group, so background children die too."""
     with contextlib.suppress(ProcessLookupError, PermissionError, OSError):
         pgid = os.getpgid(proc.pid)
         os.killpg(pgid, signal.SIGKILL)
@@ -229,13 +243,12 @@ async def health() -> dict[str, Any]:
 
 @app.get("/api/version")
 async def version() -> dict[str, Any]:
-    v = (os.getenv("VERSION") or "").strip()
-    return {"version": v}
+    return {"version": read_app_version()}
 
 
 @app.get("/api/meta")
 async def meta() -> dict[str, Any]:
-    v = (os.getenv("VERSION") or "").strip()
+    v = read_app_version()
     bitcoin_repo = (os.getenv("BITCOIN_REPO") or "").strip()
     bitcoin_version = (os.getenv("BITCOIN_VERSION") or "").strip()
     python_version = platform.python_version()

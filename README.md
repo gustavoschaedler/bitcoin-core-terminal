@@ -32,18 +32,12 @@ That's it. You now have a fresh `bitcoin-core` regtest node and a browser termin
 
 You can interact with the node in two ways: a browser WebUI and an HTTP API to send RPC commands.
 
-<table>
-<tr>
-<td align="center" width="50%">
+<div align="center">
 <sub><b>WebUI</b></sub><br/>
-<img src="assets/webui_01.jpg" alt="WebUI screenshot" width="420" />
-</td>
-<td align="center" width="50%">
+<img src="assets/webui_01.jpg" alt="WebUI screenshot" width="720" /><br/><br/>
 <sub><b>HTTP API (RPC)</b></sub><br/>
-<img src="assets/api_01.jpg" alt="API screenshot" width="420" />
-</td>
-</tr>
-</table>
+<img src="assets/api_01.jpg" alt="API screenshot" width="720" />
+</div>
 
 ---
 
@@ -112,9 +106,10 @@ cp .env_template .env
 | `BITCOIN_REPO` · `BITCOIN_VERSION` | Bitcoin Core image (also used as a build stage to copy `bitcoin-cli` into the WebUI image) |
 | `PYTHON_IMAGE`                     | Python base image for the WebUI container                                                  |
 | `NGINX_IMAGE`                      | nginx image used by the reverse proxy                                                      |
-| `VERSION`                          | Version label shown in the WebUI top bar                                                   |
 | `BITCOIND_HOST` · `BITCOIND_PORT`  | RPC endpoint used by the WebUI                                                             |
 | `BITCOIND_USER` · `BITCOIND_PASS`  | RPC credentials used by the WebUI                                                          |
+
+The WebUI version label is read from `version.txt` at the project root.
 
 Example:
 
@@ -124,7 +119,6 @@ BITCOIN_REPO=bitcoin/bitcoin
 BITCOIN_VERSION=30.0
 PYTHON_IMAGE=python:3.14-slim
 NGINX_IMAGE=nginx:1.30-alpine
-VERSION=0.1.0
 BITCOIND_HOST=bitcoind
 BITCOIND_PORT=18443
 BITCOIND_USER=bitcoin

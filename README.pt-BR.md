@@ -33,18 +33,12 @@ navegador com snippets. Veja [Smoke test](#-smoke-test) pra confirmar.
 
 Você pode interagir com o node de duas formas: uma WebUI no navegador e uma API HTTP para enviar comandos RPC para o node.
 
-<table>
-<tr>
-<td align="center" width="50%">
+<div align="center">
 <sub><b>WebUI</b></sub><br/>
-<img src="assets/webui_01.jpg" alt="Screenshot da WebUI" width="420" />
-</td>
-<td align="center" width="50%">
+<img src="assets/webui_01.jpg" alt="Screenshot da WebUI" width="720" /><br/><br/>
 <sub><b>API HTTP (RPC)</b></sub><br/>
-<img src="assets/api_01.jpg" alt="Screenshot da API" width="420" />
-</td>
-</tr>
-</table>
+<img src="assets/api_01.jpg" alt="Screenshot da API" width="720" />
+</div>
 
 ---
 
@@ -113,9 +107,10 @@ cp .env_template .env
 | `BITCOIN_REPO` · `BITCOIN_VERSION` | Imagem do Bitcoin Core (também usada como build stage para copiar o `bitcoin-cli` para a imagem do WebUI) |
 | `PYTHON_IMAGE`                     | Imagem base do Python do container do WebUI                                                               |
 | `NGINX_IMAGE`                      | Imagem do nginx usada pelo proxy reverso                                                                  |
-| `VERSION`                          | Versão exibida no topo do WebUI                                                                           |
 | `BITCOIND_HOST` · `BITCOIND_PORT`  | Endpoint RPC usado pelo WebUI                                                                             |
 | `BITCOIND_USER` · `BITCOIND_PASS`  | Credenciais RPC usadas pelo WebUI                                                                         |
+
+A versão exibida no topo do WebUI é lida do arquivo `version.txt` na raiz do projeto.
 
 Exemplo:
 
@@ -125,7 +120,6 @@ BITCOIN_REPO=bitcoin/bitcoin
 BITCOIN_VERSION=30.0
 PYTHON_IMAGE=python:3.14-slim
 NGINX_IMAGE=nginx:1.30-alpine
-VERSION=0.1.0
 BITCOIND_HOST=bitcoind
 BITCOIND_PORT=18443
 BITCOIND_USER=bitcoin
