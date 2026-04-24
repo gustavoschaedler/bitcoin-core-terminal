@@ -23,11 +23,28 @@ git clone https://github.com/gustavoschaedler/bitcoin-core-terminal.git
 cd bitcoin-core-terminal
 cp .env_template .env
 docker compose up -d --build
-open http://localhost:8080
+open http://localhost:8181
 ```
 
 Pronto. Você tem um node `bitcoin-core` em regtest novinho e um terminal no
 navegador com snippets. Veja [Smoke test](#-smoke-test) pra confirmar.
+
+## Interfaces
+
+Você pode interagir com o node de duas formas: uma WebUI no navegador e uma API HTTP para enviar comandos RPC para o node.
+
+<table>
+<tr>
+<td align="center" width="50%">
+<sub><b>WebUI</b></sub><br/>
+<img src="assets/webui_01.jpg" alt="Screenshot da WebUI" width="420" />
+</td>
+<td align="center" width="50%">
+<sub><b>API HTTP (RPC)</b></sub><br/>
+<img src="assets/api_01.jpg" alt="Screenshot da API" width="420" />
+</td>
+</tr>
+</table>
 
 ---
 
@@ -36,6 +53,7 @@ navegador com snippets. Veja [Smoke test](#-smoke-test) pra confirmar.
 - [⛏️ Bitcoin Core Terminal](#️-bitcoin-core-terminal)
     - [Laboratório local de Bitcoin Core em regtest com terminal no navegador](#laboratório-local-de-bitcoin-core-em-regtest-com-terminal-no-navegador)
   - [⚡ TL;DR — Subir rápido](#-tldr--subir-rápido)
+  - [Interfaces](#interfaces)
   - [📖 Índice](#-índice)
   - [📦 O que vem dentro](#-o-que-vem-dentro)
   - [✅ Pré-requisitos](#-pré-requisitos)
@@ -102,7 +120,7 @@ cp .env_template .env
 Exemplo:
 
 ```ini
-HOST_PORT=8080
+HOST_PORT=8181
 BITCOIN_REPO=bitcoin/bitcoin
 BITCOIN_VERSION=30.0
 PYTHON_IMAGE=python:3.14-slim
@@ -141,7 +159,7 @@ docker compose up -d --build
 Acesse:
 
 ```text
-http://localhost:8080
+http://localhost:8181
 ```
 
 O WebUI espera o `bitcoind` ficar saudável (`getblockchaininfo` responder)
@@ -169,13 +187,13 @@ docker compose exec webui bitcoin-cli getblockchaininfo
 Via HTTP do WebUI:
 
 ```bash
-curl http://localhost:8080/api/health
+curl http://localhost:8181/api/health
 ```
 
 Versões (software/Python/Bitcoin):
 
 ```bash
-curl http://localhost:8080/api/meta
+curl http://localhost:8181/api/meta
 ```
 
 ---
@@ -269,12 +287,12 @@ bitcoin-coders-bootcamp/
 
 ```text
 Navegador
-  │  HTTP :8080 (só 127.0.0.1)
+  │  HTTP :8181 (só 127.0.0.1)
   ▼
 proxy (nginx)  ──►  webui (FastAPI)  ──►  bitcoind (JSON-RPC)
 ```
 
-Somente a porta `8080` é publicada, e apenas em `127.0.0.1` (loopback). As
+Somente a porta `8181` é publicada, e apenas em `127.0.0.1` (loopback). As
 redes do Compose `app` e `rpc` estão declaradas como `internal: true`, então
 o `bitcoind` não é acessível a partir do host e o WebUI só é acessível via o
 proxy. O container `webui` roda como usuário não-root (`sandbox`, uid 1000),
@@ -296,7 +314,7 @@ que o nginx precisa para subir.
 
 | Escopo                | Endereço                         |
 | --------------------- | -------------------------------- |
-| Host                  | `127.0.0.1:8080` → proxy → webui |
+| Host                  | `127.0.0.1:8181` → proxy → webui |
 | RPC (interno)         | `bitcoind:18443`                 |
 | P2P regtest (interno) | `18444`                          |
 
@@ -366,9 +384,9 @@ proxy.
 </details>
 
 <details>
-<summary>Porta 8080 já em uso</summary>
+<summary>Porta 8181 já em uso</summary>
 
-Altere `HOST_PORT` no `.env` (ex.: `HOST_PORT=18080`) e recrie o stack.
+Altere `HOST_PORT` no `.env` (ex.: `HOST_PORT=18181`) e recrie o stack.
 
 </details>
 

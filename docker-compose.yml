@@ -51,7 +51,7 @@ services:
         - CMD-SHELL
         - >-
           python3 -c "import urllib.request,sys;
-          sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/api/health',timeout=3).status==200 else 1)"
+          sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8181/api/health',timeout=3).status==200 else 1)"
       interval: 10s
       timeout: 5s
       retries: 6
@@ -66,9 +66,9 @@ services:
       - edge
     ports:
       # Bind only to localhost by default. If you must expose the WebUI on a
-      # LAN or the public internet, switch to "${HOST_PORT}:8080" AND add
+      # LAN or the public internet, switch to "${HOST_PORT}:8181" AND add
       # authentication (nginx basic_auth, a reverse proxy with auth, etc).
-      - "127.0.0.1:${HOST_PORT}:8080"
+      - "127.0.0.1:${HOST_PORT}:8181"
     volumes:
       - ./infra/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     cap_drop:

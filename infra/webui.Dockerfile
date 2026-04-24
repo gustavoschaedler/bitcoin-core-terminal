@@ -57,5 +57,5 @@ USER sandbox
 ENV HOME=/home/sandbox
 WORKDIR /home/sandbox
 
-EXPOSE 8080
+EXPOSE 8181
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -30,7 +30,7 @@ chmod 600 "$BITCOIN_DIR/bitcoin.conf"
 
 exec uvicorn app:app \
     --host 0.0.0.0 \
-    --port 8080 \
+    --port 8181 \
     --app-dir /app \
     --proxy-headers \
     --forwarded-allow-ips='*'
