@@ -384,11 +384,7 @@ with `docker compose up -d --build`.
 
 ## ⚡ Donations
 
-If this project helped you, a tip is very welcome — it keeps the lights on.
-
-> [!NOTE]
-> The addresses below are **placeholders**. Replace them with your own, and
-> the QR codes will update automatically (they are generated from the URL).
+If this project helped you and you’d like to support it, buy me a coffee.
 
 <table>
 <tr>
@@ -397,12 +393,12 @@ If this project helped you, a tip is very welcome — it keeps the lights on.
 </tr>
 <tr>
 <td align="center" width="50%">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=bitcoin%3Abc1qSUBSTITUAPELOSEUENDERECOBTCMAINNETXXXXXXXX" alt="BTC on-chain QR" width="220" height="220" /><br/>
-<sub><code>bc1qSUBSTITUAPELOSEUENDERECOBTCMAINNETXXXXXXXX</code></sub>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=bitcoin%3Abc1q2hmxr026ahlvreftxqrjdwkq8u7ys2g0d0xf40" alt="BTC on-chain QR" width="220" height="220" /><br/>
+<sub><code>bc1q2hmxr026ahlvreftxqrjdwkq8u7ys2g0d0xf40</code></sub>
 </td>
 <td align="center" width="50%">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=your-lightning-address%40your-provider.com" alt="Lightning QR" width="220" height="220" /><br/>
-<sub><code>your-lightning-address@your-provider.com</code></sub>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=btcnow%40walletofsatoshi.com" alt="Lightning QR" width="220" height="220" /><br/>
+<sub><code>btcnow@walletofsatoshi.com</code></sub>
 </td>
 </tr>
 </table>
